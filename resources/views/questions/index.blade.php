@@ -9,11 +9,14 @@
                         <div class="d-flex align-items-center">
                             <h2>All Questions</h2>
                             <div class="ml-auto">
-                                <a href="{{ route('questions.create') }}" class="btn btn-outline-secondary">Ask Question</a>
+                                <a href="{{ route('questions.create') }}" class="btn btn-outline-secondary">Ask
+                                    Question</a>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
+                        @include('layouts/_messages')
+
                         @foreach($questions as $question)
 
                             <div class="media">
@@ -29,10 +32,15 @@
                                     </div>
                                 </div>
                                 <div class="media-body">
-                                    <h3 class="mt-0">
-                                        {{--<a href="{{route('questions.show', $question->id)}}"> {{$question->title}}</a>--}}
-                                        <a href="{{$question->url}}"> {{$question->title}}</a>
-                                    </h3>
+                                    <div class="d-flex align-items-center">
+                                        <h3 class="mt-0">
+                                            {{--<a href="{{route('questions.show', $question->id)}}"> {{$question->title}}</a>--}}
+                                            <a href="{{$question->url}}"> {{$question->title}}</a>
+                                        </h3>
+                                        <div class="ml-auto">
+                                            <a href="{{route('questions.edit', $question->id)}}" class="btn btn-sm btn-outline-info">Edit</a>
+                                        </div>
+                                    </div>
                                     <p class="lead">
                                         Asked by:
                                         {{--<a href="{{route('users.show', $question->user->url}}">--}}
