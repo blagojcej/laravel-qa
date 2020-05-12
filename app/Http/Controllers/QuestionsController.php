@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AskQuestionRequest;
 use App\Question;
+use Gate;
 use Illuminate\Http\Request;
 
 class QuestionsController extends Controller
@@ -15,7 +16,6 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-        //
         $questions = Question::latest()->paginate(5);
 
         return view('questions.index', compact('questions'));
@@ -28,7 +28,6 @@ class QuestionsController extends Controller
      */
     public function create()
     {
-        //
         $question = new Question();
 
         return view('questions.create', compact('question'));
@@ -57,7 +56,12 @@ class QuestionsController extends Controller
      */
     public function show(Question $question)
     {
-        //
+        $question->increment('views');
+        //Above line increment views counter like below code
+        //$question->views = $question->views +1;
+        //$question->save();
+
+        return view('questions.show', compact('question'));
     }
 
     /**
@@ -68,7 +72,11 @@ class QuestionsController extends Controller
      */
     public function edit(Question $question)
     {
-        return view('questions.edit', compact('question'));
+        if (Gate::allows('update-question', $question)) {
+            return view('questions.edit', compact('question'));
+        }
+
+        return abort(403, "Access denied");
     }
 
     /**
@@ -80,8 +88,13 @@ class QuestionsController extends Controller
      */
     public function update(AskQuestionRequest $request, Question $question)
     {
-        $question->update($request->only('title', 'body'));
+        if (Gate::denies('update-question', $question)) {
+            return abort(403, "Access denied");
+        }
 
+//        $this->authorize("update", $question);
+
+        $question->update($request->only('title', 'body'));
         return redirect()->route('questions.index')->with('success', "Your question has been updated.");
     }
 
@@ -93,8 +106,14 @@ class QuestionsController extends Controller
      */
     public function destroy(Question $question)
     {
-        $question->delete();
+//        if (Gate::denies('delete-question', $question)) {
+//            return abort(403, "Access denied");
+//        }
 
+        $this->authorize("delete", $question);
+
+        $question->delete();
         return redirect()->route('questions.index')->with('success', "Your question has been deleted.");
+
     }
 }
