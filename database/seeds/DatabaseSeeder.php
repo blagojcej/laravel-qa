@@ -18,7 +18,12 @@ class DatabaseSeeder extends Seeder
                 $u->questions()
                     ->saveMany(
                         factory(\App\Question::class, rand(1, 5))->make()
-                    );
+                    )
+                //For each question, create random number of answers between 1 and 5 answer(s)
+                ->each(function ($question) {
+                    //make() - creates and return array of data, create() method save data to database
+                    $question->answers()->saveMany(factory(\App\Answer::class, rand(1,5))->make());
+                });
             });
 
     }
