@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,3 +25,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('questions', 'QuestionsController')
     ->except('show');
 Route::get('/questions/{slug}', 'QuestionsController@show')->name('questions.show');
+
+//Rute to create new answer
+//Route::post('/questions/{question}/answers', 'AnswersController@store')->name('answers.store');
+//Routes for answer CRUD operations
+Route::resource('questions.answers', 'AnswersController')->only(['store', 'edit', 'update', 'destroy']);
+//Route::resource('questions.answers', 'AnswersController')->except(['index', 'create', 'show']);
