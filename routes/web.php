@@ -31,3 +31,8 @@ Route::get('/questions/{slug}', 'QuestionsController@show')->name('questions.sho
 //Routes for answer CRUD operations
 Route::resource('questions.answers', 'AnswersController')->only(['store', 'edit', 'update', 'destroy']);
 //Route::resource('questions.answers', 'AnswersController')->except(['index', 'create', 'show']);
+
+Route::post('/answers/{answer}/accept', 'AcceptAnswerController')->name('answers.accept');
+
+Route::post('/questions/{question}/favorites', 'FavoriteController@store')->name('questions.favorite');
+Route::delete('/questions/{question}/favorites', 'FavoriteController@destroy')->name('questions.unfavorite');
