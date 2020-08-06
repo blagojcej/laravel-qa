@@ -12,6 +12,7 @@ class UsersQuestionsAnswersTableSeeder extends Seeder
      */
     public function run()
     {
+        //Do deleting in reverse order on seeding
         DB::table('answers')->delete();
         DB::table('questions')->delete();
         DB::table('users')->delete();

@@ -13,6 +13,6 @@ $factory->define(\App\Question::class, function (Faker $faker) {
         'views' => rand(0, 10),
         //Stop filling 'answers_count' field from here, it's filled from App\Answer model
         //'answers_count' => rand(0, 10),
-        'votes' => rand(-3, 10)
+        //'votes_count' => rand(-3, 10) - after implementing votes
     ];
 });
